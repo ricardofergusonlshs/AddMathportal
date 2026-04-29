@@ -460,10 +460,33 @@ async function recordSyncRequest(action, payload = {}) {
   }
 
   return { ok: true };
-  
-      const url = getRecordSyncUrl();
-      if (!url) throw new Error('Record sync URL is not configured.');
-      const response = await fetch(url, {
+  async function recordSyncRequest(action, payload = {}) {
+  const url = getRecordSyncUrl();
+
+  if (!url) {
+    throw new Error('Record sync URL is not configured.');
+  }
+
+  const body = JSON.stringify({
+    app: 'csec-additional-maths-static-site',
+    action,
+    ...payload,
+    sentAt: new Date().toISOString()
+  });
+
+  await fetch(url, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'text/plain;charset=UTF-8'
+    },
+    body
+  });
+
+  return { ok: true };
+}
+      
+        
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

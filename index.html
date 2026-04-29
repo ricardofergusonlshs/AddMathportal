@@ -448,33 +448,6 @@ async function recordSyncRequest(action, payload = {}) {
     sentAt: new Date().toISOString()
   });
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body
-  });
-
-  if (!response.ok) {
-    throw new Error(`Power Automate failed with status ${response.status}`);
-  }
-
-  return { ok: true };
-  async function recordSyncRequest(action, payload = {}) {
-  const url = getRecordSyncUrl();
-
-  if (!url) {
-    throw new Error('Record sync URL is not configured.');
-  }
-
-  const body = JSON.stringify({
-    app: 'csec-additional-maths-static-site',
-    action,
-    ...payload,
-    sentAt: new Date().toISOString()
-  });
-
   await fetch(url, {
     method: 'POST',
     mode: 'no-cors',
@@ -486,23 +459,6 @@ async function recordSyncRequest(action, payload = {}) {
 
   return { ok: true };
 }
-      
-        
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          app: 'csec-additional-maths-static-site',
-          action,
-          payload,
-          sentAt: new Date().toISOString()
-        })
-      });
-      const responseText = await response.text();
-      let data = null;
-      try { data = responseText ? JSON.parse(responseText) : null; } catch { data = responseText; }
-      if (!response.ok) throw new Error(typeof data === 'string' ? data : (data?.message || `Record sync request failed (${response.status}).`));
-      return data;
-    }
     function normaliseAttemptFromRecordSyncRow(row) {
       if (!row) return null;
       if (row.payload && typeof row.payload === 'object') return row.payload;
